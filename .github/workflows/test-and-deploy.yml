@@ -1,7 +1,7 @@
 name: Test, build and deploy the approval app
 on: push
 env:
-  IMAGE: docker.pkg.github.com/${{ github.repository }}/naisdevice-approval:${GITHUB_SHA}
+  IMAGE: docker.pkg.github.com/${{ github.repository }}/naisdevice-approval:${{ github.sha }}
 
 jobs:
   test:
