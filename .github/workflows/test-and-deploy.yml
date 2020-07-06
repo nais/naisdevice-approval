@@ -1,4 +1,4 @@
-name: Test, build and deploy the approval app
+name: Test, build and deploy
 on: push
 env:
   IMAGE: docker.pkg.github.com/${{ github.repository }}/naisdevice-approval:${{ github.sha }}
@@ -69,3 +69,20 @@ jobs:
           CLUSTER: dev-gcp
           RESOURCE: nais.yml
           VARS: dev-gcp-vars.yml
+
+  deploy-prod-gcp:
+    if: ${{ github.ref == 'refs/heads/master' }}
+    name: Deploy to prod-gcp
+    needs:
+      - test
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_KEY }}
+          CLUSTER: prod-gcp
+          RESOURCE: nais.yml
+          VARS: prod-gcp-vars.yml
