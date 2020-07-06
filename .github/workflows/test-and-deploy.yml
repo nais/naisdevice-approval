@@ -1,0 +1,71 @@
+name: Test, build and deploy the approval app
+on: push
+env:
+  IMAGE: docker.pkg.github.com/${{ github.repository }}/naisdevice-approval:${GITHUB_SHA}
+
+jobs:
+  test:
+    name: Run unit tests and static analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Output some debug information about the PHP version
+        run: |
+          php -v
+          php -i
+          php -m
+
+      - name: Validate composer files
+        run: composer validate --strict
+
+      - name: Get Composer Cache Directory
+        id: get-composer-cache-dir
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - uses: actions/cache@v2
+        id: composer-cache
+        with:
+          path: ${{ steps.get-composer-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest --no-ansi -o
+
+      - name: Run unit tests
+        run: composer run test
+
+      - name: Run static analysis
+        run: composer run sa
+
+  build:
+    name: Build docker container
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build and publish Docker image
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          docker build --tag ${IMAGE} .
+          docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
+          docker push ${IMAGE}
+
+  deploy-dev-gcp:
+    name: Deploy to dev-gcp
+    needs:
+      - test
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_KEY }}
+          CLUSTER: dev-gcp
+          RESOURCE: nais.yml
+          VARS: dev-gcp-vars.yml
