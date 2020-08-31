@@ -4,3 +4,4 @@ build
 *.env
 test.php
 .phpunit.result.cache
+.DS_Store
