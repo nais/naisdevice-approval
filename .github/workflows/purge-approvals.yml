@@ -1,0 +1,34 @@
+name: Require re-approval of all naisdevice users
+on:
+  pull_request:
+    types:
+      - closed
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'trigger re-approval')
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get Composer Cache Directory
+        id: get-composer-cache-dir
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - uses: actions/cache@v2
+        id: composer-cache
+        with:
+          path: ${{ steps.get-composer-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest --no-ansi -o --no-dev
+
+      - name: Purge group members
+        run: php purge-approvals-group.php
+        env:
+          AAD_CLIENT_ID: ${{ secrets.AAD_CLIENT_ID }}
+          AAD_CLIENT_SECRET: ${{ secrets.AAD_CLIENT_SECRET }}
+          DOMAIN: nav.no
+          ACCESS_GROUP: ffd89425-c75c-4618-b5ab-67149ddbbc2d
