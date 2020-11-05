@@ -1,13 +1,17 @@
 <?php declare(strict_types=1);
 namespace Nais\Device\Approval\Controllers;
 
-use Nais\Device\Approval\SamlResponseValidator;
-use Nais\Device\Approval\Session;
-use Nais\Device\Approval\Session\User;
+use Nais\Device\Approval\{
+    SamlResponseValidator,
+    Session,
+    Session\User,
+};
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\{
+    ServerRequestInterface as Request,
+    ResponseInterface as Response,
+    StreamInterface,
+};
 
 /**
  * @coversDefaultClass Nais\Device\Approval\Controllers\SamlController

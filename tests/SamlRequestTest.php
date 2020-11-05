@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 namespace Nais\Device\Approval;
 
-use SimpleXMLElement;
 use PHPUnit\Framework\TestCase;
+use SimpleXMLElement;
 
 /**
  * @coversDefaultClass Nais\Device\Approval\SamlRequest

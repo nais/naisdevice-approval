@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 require 'vendor/autoload.php';
 
 foreach (['AAD_CLIENT_ID', 'AAD_CLIENT_SECRET', 'DOMAIN', 'ACCESS_GROUP'] as $required) {
