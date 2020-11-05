@@ -71,7 +71,7 @@ jobs:
           VARS: dev-gcp-vars.yml
 
   deploy-prod-gcp:
-    if: ${{ github.ref == 'refs/heads/master' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     name: Deploy to prod-gcp
     needs:
       - test
