@@ -1,14 +1,17 @@
 <?php declare(strict_types=1);
 namespace Nais\Device\Approval\Controllers;
 
-use Nais\Device\Approval\Session;
-use Nais\Device\Approval\SamlRequest;
+use Nais\Device\Approval\{
+    SamlRequest,
+    Session,
+};
 use NAVIT\AzureAd\ApiClient;
-use NAVIT\AzureAd\Models\Group;
-use Slim\Views\Twig;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\{
+    ServerRequestInterface as Request,
+    ResponseInterface as Response,
+};
 use RuntimeException;
+use Slim\Views\Twig;
 
 class IndexController {
     private ApiClient $apiClient;
@@ -41,8 +44,8 @@ class IndexController {
         }
 
         try {
-            $groups = array_filter($this->apiClient->getUserGroups($user->getObjectId()), function(Group $group) : bool {
-                return $group->getId() === $this->accessGroup;
+            $groups = array_filter($this->apiClient->getUserGroups($user->getObjectId()), function(array $group) : bool {
+                return $group['id'] === $this->accessGroup;
             });
         } catch (RuntimeException $e) {
             throw new RuntimeException('Unable to fetch user groups', (int) $e->getCode(), $e);
