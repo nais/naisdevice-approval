@@ -3,9 +3,10 @@ namespace Nais\Device\Approval\Controllers;
 
 use Nais\Device\Approval\Session;
 use NAVIT\AzureAd\ApiClient;
-use NAVIT\AzureAd\Models\Group;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\{
+    ServerRequestInterface as Request,
+    ResponseInterface as Response,
+};
 use RuntimeException;
 
 class MembershipController {
@@ -24,7 +25,7 @@ class MembershipController {
         $user             = $this->session->getUser();
         $sessionToken     = $this->session->getPostToken();
 
-        /** @var array{token: ?string} */
+        /** @var array{token:?string} */
         $post             = $request->getParsedBody();
         $tokenFromRequest = $post['token'] ?? null;
 
@@ -40,8 +41,8 @@ class MembershipController {
         }
 
         try {
-            $groups = array_filter($this->apiClient->getUserGroups($user->getObjectId()), function(Group $group) : bool {
-                return $group->getId() === $this->accessGroup;
+            $groups = array_filter($this->apiClient->getUserGroups($user->getObjectId()), function(array $group) : bool {
+                return $group['id'] === $this->accessGroup;
             });
         } catch (RuntimeException $e) {
             $response->getBody()->write((string) json_encode(['error' => 'Unable to fetch user groups']));

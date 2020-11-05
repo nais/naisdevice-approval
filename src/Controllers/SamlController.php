@@ -1,14 +1,18 @@
 <?php declare(strict_types=1);
 namespace Nais\Device\Approval\Controllers;
 
-use Nais\Device\Approval\SamlResponseValidator;
-use Nais\Device\Approval\Session;
-use Nais\Device\Approval\Session\User;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
 use DOMDocument;
 use DOMXPath;
 use InvalidArgumentException;
+use Nais\Device\Approval\{
+    SamlResponseValidator,
+    Session,
+    Session\User,
+};
+use Psr\Http\Message\{
+    ResponseInterface as Response,
+    ServerRequestInterface as Request,
+};
 
 class SamlController {
     private Session $session;
@@ -27,7 +31,7 @@ class SamlController {
             return $response->withStatus(400);
         }
 
-        /** @var array{SAMLResponse: ?string} */
+        /** @var array{SAMLResponse:?string} */
         $params = $request->getParsedBody();
 
         if (empty($params['SAMLResponse'])) {

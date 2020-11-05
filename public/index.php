@@ -1,17 +1,23 @@
 <?php declare(strict_types=1);
 namespace Nais\Device\Approval;
 
-use NAVIT\AzureAd\ApiClient;
 use DI\Container;
-use Slim\Factory\AppFactory;
-use Slim\Views\Twig;
-use Slim\Views\TwigMiddleware;
-use Nais\Device\Approval\Controllers\IndexController;
-use Nais\Device\Approval\Controllers\MembershipController;
-use Nais\Device\Approval\Controllers\SamlController;
-use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Nais\Device\Approval\Controllers\{
+    IndexController,
+    MembershipController,
+    SamlController,
+};
+use NAVIT\AzureAd\ApiClient;
+use Slim\{
+    Factory\AppFactory,
+    Views\Twig,
+    Views\TwigMiddleware,
+};
+use Psr\{
+    Container\ContainerInterface,
+    Http\Message\ResponseInterface as Response,
+    Http\Message\ServerRequestInterface as Request,
+};
 use Throwable;
 
 require __DIR__ . '/../vendor/autoload.php';

@@ -2,9 +2,11 @@
 namespace Nais\Device\Approval\Middleware;
 
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Http\{
+    Message\ResponseInterface,
+    Message\ServerRequestInterface,
+    Server\RequestHandlerInterface,
+};
 use RuntimeException;
 
 /**
@@ -12,7 +14,7 @@ use RuntimeException;
  */
 class EnvironmentValidationTest extends TestCase {
     /**
-     * @return array<string, array{0: array<string, string>, 1: string}>
+     * @return array<string,array{0:array<string,string>,1:string}>
      */
     public function getEnvVars() : array {
         return [
@@ -35,7 +37,7 @@ class EnvironmentValidationTest extends TestCase {
      * @dataProvider getEnvVars
      * @covers ::__construct
      * @covers ::__invoke
-     * @param array<string, string> $vars
+     * @param array<string,string> $vars
      * @param string $error
      */
     public function testFailsOnMissingValue(array $vars, string $error) : void {

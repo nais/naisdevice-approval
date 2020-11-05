@@ -33,7 +33,6 @@ class Session {
      * @return ?User
      */
     public function getUser() : ?User {
-        /** @var ?User */
         $user = $_SESSION['user'] ?? null;
 
         if (null === $user || !$user instanceof User) {

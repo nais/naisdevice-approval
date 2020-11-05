@@ -1,14 +1,17 @@
 <?php declare(strict_types=1);
 namespace Nais\Device\Approval\Controllers;
 
-use Nais\Device\Approval\Session;
-use Nais\Device\Approval\Session\User;
+use Nais\Device\Approval\{
+    Session,
+    Session\User,
+};
 use NAVIT\AzureAd\ApiClient;
-use NAVIT\AzureAd\Models\Group;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\{
+    ServerRequestInterface as Request,
+    ResponseInterface as Response,
+    StreamInterface,
+};
 use RuntimeException;
 
 /**
@@ -258,9 +261,9 @@ class MembershipControllerTest extends TestCase {
             ->method('getUserGroups')
             ->with('user-id')
             ->willReturn([
-                $this->createConfiguredMock(Group::class, ['getId' => 'group-1']),
-                $this->createConfiguredMock(Group::class, ['getId' => 'access-group']),
-                $this->createConfiguredMock(Group::class, ['getId' => 'group-2']),
+                ['id' => 'group-1'],
+                ['id' => 'access-group'],
+                ['id' => 'group-2'],
             ]);
 
         $apiClient
@@ -320,8 +323,8 @@ class MembershipControllerTest extends TestCase {
             ->method('getUserGroups')
             ->with('user-id')
             ->willReturn([
-                $this->createConfiguredMock(Group::class, ['getId' => 'group-1']),
-                $this->createConfiguredMock(Group::class, ['getId' => 'group-2']),
+                ['id' => 'group-1'],
+                ['id' => 'group-2'],
             ]);
 
         $apiClient
