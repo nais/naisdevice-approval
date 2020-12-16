@@ -5,10 +5,15 @@ on:
       - closed
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     if: github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'trigger re-approval')
     steps:
       - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
 
       - name: Get Composer Cache Directory
         id: get-composer-cache-dir
@@ -23,7 +28,7 @@ jobs:
             ${{ runner.os }}-composer-
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest --no-ansi -o --no-dev
+        run: composer install --prefer-dist --no-dev
 
       - name: Purge group members
         run: php purge-approvals-group.php
