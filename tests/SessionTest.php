@@ -7,10 +7,12 @@ use PHPUnit\Framework\TestCase;
 /**
  * @coversDefaultClass Nais\Device\Approval\Session
  */
-class SessionTest extends TestCase {
+class SessionTest extends TestCase
+{
     private Session $session;
 
-    public function setUp() : void {
+    public function setUp(): void
+    {
         $_SESSION['user'] = null;
         $this->session = new Session();
     }
@@ -19,7 +21,8 @@ class SessionTest extends TestCase {
      * @covers ::setUser
      * @covers ::getUser
      */
-    public function testCanSetAndGetUser() : void {
+    public function testCanSetAndGetUser(): void
+    {
         $user = new User('id', 'name');
         $this->assertNull($this->session->getUser());
         $this->session->setUser($user);
@@ -30,7 +33,8 @@ class SessionTest extends TestCase {
      * @covers ::setPostToken
      * @covers ::getPostToken
      */
-    public function testCanSetAndGetPostToken() : void {
+    public function testCanSetAndGetPostToken(): void
+    {
         $this->assertNull($this->session->getPostToken());
         $this->session->setPostToken('token');
         $this->assertSame('token', $this->session->getPostToken());
@@ -40,7 +44,8 @@ class SessionTest extends TestCase {
      * @covers ::setUser
      * @covers ::deleteUser
      */
-    public function testCanRemoveUser() : void {
+    public function testCanRemoveUser(): void
+    {
         $user = new User('id', 'name');
         $this->session->setUser($user);
         $this->assertSame($user, $this->session->getUser());
@@ -51,7 +56,8 @@ class SessionTest extends TestCase {
     /**
      * @covers ::hasUser
      */
-    public function testCanCheckIfTheSessionHasAUser() : void {
+    public function testCanCheckIfTheSessionHasAUser(): void
+    {
         $this->assertFalse($this->session->hasUser());
         $_SESSION['user'] = 'some value';
         $this->assertFalse($this->session->hasUser());

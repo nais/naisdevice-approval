@@ -4,7 +4,8 @@ namespace Nais\Device\Approval;
 use DateTime;
 use DateTimeZone;
 
-class SamlRequest {
+class SamlRequest
+{
     private string $issuer;
 
     /**
@@ -12,7 +13,8 @@ class SamlRequest {
      *
      * @param string $issuer
      */
-    public function __construct(string $issuer) {
+    public function __construct(string $issuer)
+    {
         $this->issuer = $issuer;
     }
 
@@ -21,7 +23,8 @@ class SamlRequest {
      *
      * @return string
      */
-    public function __toString() : string {
+    public function __toString(): string
+    {
         $samlRequest = <<<SAMLRequest
 <samlp:AuthnRequest
     xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"

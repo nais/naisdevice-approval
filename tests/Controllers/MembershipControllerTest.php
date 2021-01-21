@@ -1,28 +1,26 @@
 <?php declare(strict_types=1);
 namespace Nais\Device\Approval\Controllers;
 
-use Nais\Device\Approval\{
-    Session,
-    Session\User,
-};
+use Nais\Device\Approval\Session;
+use Nais\Device\Approval\Session\User;
 use NAVIT\AzureAd\ApiClient;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\{
-    ServerRequestInterface as Request,
-    ResponseInterface as Response,
-    StreamInterface,
-};
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\StreamInterface;
 use RuntimeException;
 
 /**
  * @coversDefaultClass Nais\Device\Approval\Controllers\MembershipController
  */
-class MembershipControllerTest extends TestCase {
+class MembershipControllerTest extends TestCase
+{
     /**
      * @covers ::__construct
      * @covers ::toggle
      */
-    public function testRespondsWithErrorOnMissingUser() : void {
+    public function testRespondsWithErrorOnMissingUser(): void
+    {
         $controller = new MembershipController(
             $this->createConfiguredMock(Session::class, ['getUser' => null]),
             $this->createMock(ApiClient::class),
@@ -59,7 +57,8 @@ class MembershipControllerTest extends TestCase {
      * @covers ::__construct
      * @covers ::toggle
      */
-    public function testRespondsWithErrorOnMissingSessionToken() : void {
+    public function testRespondsWithErrorOnMissingSessionToken(): void
+    {
         $controller = new MembershipController(
             $this->createConfiguredMock(Session::class, [
                 'getUser'      => $this->createMock(User::class),
@@ -99,7 +98,8 @@ class MembershipControllerTest extends TestCase {
      * @covers ::__construct
      * @covers ::toggle
      */
-    public function testRespondsWithErrorOnInvalidSessionToken() : void {
+    public function testRespondsWithErrorOnInvalidSessionToken(): void
+    {
         $controller = new MembershipController(
             $this->createConfiguredMock(Session::class, [
                 'getUser'      => $this->createMock(User::class),
@@ -142,7 +142,8 @@ class MembershipControllerTest extends TestCase {
     /**
      * @covers ::toggle
      */
-    public function testThrowsExceptionWhenUnableToFetchUserGroups() : void {
+    public function testThrowsExceptionWhenUnableToFetchUserGroups(): void
+    {
         $apiClient = $this->createMock(ApiClient::class);
         $apiClient
             ->expects($this->once())
@@ -195,7 +196,8 @@ class MembershipControllerTest extends TestCase {
     /**
      * @covers ::toggle
      */
-    public function testThrowsExceptionWhenTogglingFails() : void {
+    public function testThrowsExceptionWhenTogglingFails(): void
+    {
         $apiClient = $this->createMock(ApiClient::class);
         $apiClient
             ->expects($this->once())
@@ -214,7 +216,7 @@ class MembershipControllerTest extends TestCase {
                 'getUser' => $this->createConfiguredMock(User::class, [
                     'getObjectId' => 'user-id',
                 ]),
-                'getPostToken' => 'some-token'
+                'getPostToken' => 'some-token',
             ]),
             $apiClient,
             'access-group'
@@ -254,7 +256,8 @@ class MembershipControllerTest extends TestCase {
     /**
      * @covers ::toggle
      */
-    public function testCanRemoveUserFromGroup() : void {
+    public function testCanRemoveUserFromGroup(): void
+    {
         $apiClient = $this->createMock(ApiClient::class);
         $apiClient
             ->expects($this->once())
@@ -316,7 +319,8 @@ class MembershipControllerTest extends TestCase {
     /**
      * @covers ::toggle
      */
-    public function testCanAddUserToGroup() : void {
+    public function testCanAddUserToGroup(): void
+    {
         $apiClient = $this->createMock(ApiClient::class);
         $apiClient
             ->expects($this->once())

@@ -2,21 +2,21 @@
 namespace Nais\Device\Approval\Middleware;
 
 use PHPUnit\Framework\TestCase;
-use Psr\Http\{
-    Message\ResponseInterface,
-    Message\ServerRequestInterface,
-    Server\RequestHandlerInterface,
-};
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use RuntimeException;
 
 /**
  * @coversDefaultClass Nais\Device\Approval\Middleware\EnvironmentValidation
  */
-class EnvironmentValidationTest extends TestCase {
+class EnvironmentValidationTest extends TestCase
+{
     /**
      * @return array<string,array{0:array<string,string>,1:string}>
      */
-    public function getEnvVars() : array {
+    public function getEnvVars(): array
+    {
         return [
             'no vars' => [
                 [],
@@ -40,7 +40,8 @@ class EnvironmentValidationTest extends TestCase {
      * @param array<string,string> $vars
      * @param string $error
      */
-    public function testFailsOnMissingValue(array $vars, string $error) : void {
+    public function testFailsOnMissingValue(array $vars, string $error): void
+    {
         $this->expectExceptionObject(new RuntimeException($error));
         (new EnvironmentValidation($vars))(
             $this->createMock(ServerRequestInterface::class),
@@ -51,7 +52,8 @@ class EnvironmentValidationTest extends TestCase {
     /**
      * @covers ::__invoke
      */
-    public function testHandleResponseOnSuccess() : void {
+    public function testHandleResponseOnSuccess(): void
+    {
         $request  = $this->createMock(ServerRequestInterface::class);
         $response = $this->createMock(ResponseInterface::class);
 

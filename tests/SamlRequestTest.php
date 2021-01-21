@@ -7,12 +7,14 @@ use SimpleXMLElement;
 /**
  * @coversDefaultClass Nais\Device\Approval\SamlRequest
  */
-class SamlRequestTest extends TestCase {
+class SamlRequestTest extends TestCase
+{
     /**
      * @covers ::__construct
      * @covers ::__toString
      */
-    public function testCanPresentAsString() : void {
+    public function testCanPresentAsString(): void
+    {
         /** @var SimpleXMLElement */
         $request = simplexml_load_string((string) gzinflate((string) base64_decode((string) new SamlRequest('some-issuer'), true)), 'SimpleXMLElement', 0, 'samlp');
         $request->registerXPathNamespace('saml', 'urn:oasis:names:tc:SAML:2.0:assertion');
