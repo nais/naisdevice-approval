@@ -31,6 +31,7 @@
     "slim/twig-view": "^3.1"
   },
   "require-dev": {
+    "navikt/coding-standard": "^1.0",
     "phpstan/extension-installer": "^1.0",
     "phpstan/phpstan": "^0.12.54",
     "phpstan/phpstan-phpunit": "^0.12.11",
@@ -47,10 +48,12 @@
     ],
     "phpstan": "vendor/bin/phpstan analyse",
     "psalm": "vendor/bin/psalm",
+    "cs": "php-cs-fixer fix --dry-run --diff --diff-format udiff",
     "ci": [
       "@lint",
       "@test",
-      "@sa"
+      "@sa",
+      "@cs"
     ],
     "start": "DEBUG=1 php -S localhost:8080 -t public/"
   },
