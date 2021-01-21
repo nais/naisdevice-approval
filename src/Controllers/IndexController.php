@@ -1,19 +1,16 @@
 <?php declare(strict_types=1);
 namespace Nais\Device\Approval\Controllers;
 
-use Nais\Device\Approval\{
-    SamlRequest,
-    Session,
-};
+use Nais\Device\Approval\SamlRequest;
+use Nais\Device\Approval\Session;
 use NAVIT\AzureAd\ApiClient;
-use Psr\Http\Message\{
-    ServerRequestInterface as Request,
-    ResponseInterface as Response,
-};
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use RuntimeException;
 use Slim\Views\Twig;
 
-class IndexController {
+class IndexController
+{
     private ApiClient $apiClient;
     private Twig $view;
     private Session $session;
@@ -21,7 +18,8 @@ class IndexController {
     private string $entityId;
     private string $accessGroup;
 
-    public function __construct(ApiClient $apiClient, Twig $view, Session $session, string $loginUrl, string $entityId, string $accessGroup) {
+    public function __construct(ApiClient $apiClient, Twig $view, Session $session, string $loginUrl, string $entityId, string $accessGroup)
+    {
         $this->apiClient   = $apiClient;
         $this->view        = $view;
         $this->session     = $session;
@@ -30,7 +28,8 @@ class IndexController {
         $this->accessGroup = $accessGroup;
     }
 
-    public function index(Request $request, Response $response) : Response {
+    public function index(Request $request, Response $response): Response
+    {
         $user = $this->session->getUser();
 
         if (null === $user) {
@@ -44,7 +43,7 @@ class IndexController {
         }
 
         try {
-            $groups = array_filter($this->apiClient->getUserGroups($user->getObjectId()), function(array $group) : bool {
+            $groups = array_filter($this->apiClient->getUserGroups($user->getObjectId()), function (array $group): bool {
                 return $group['id'] === $this->accessGroup;
             });
         } catch (RuntimeException $e) {

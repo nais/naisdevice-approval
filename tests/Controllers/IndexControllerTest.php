@@ -1,35 +1,35 @@
 <?php declare(strict_types=1);
 namespace Nais\Device\Approval\Controllers;
 
-use Nais\Device\Approval\{
-    Session,
-    Session\User,
-};
+use Nais\Device\Approval\Session;
+use Nais\Device\Approval\Session\User;
 use NAVIT\AzureAd\ApiClient;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\{
-    ServerRequestInterface as Request,
-    ResponseInterface as Response,
-};
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use RuntimeException;
 use Slim\Views\Twig;
 
 /**
  * @coversDefaultClass Nais\Device\Approval\Controllers\IndexController
  */
-class IndexControllerTest extends TestCase {
+class IndexControllerTest extends TestCase
+{
     /**
      * @covers ::__construct
      * @covers ::index
      */
-    public function testRedirectsOnMissingUser() : void {
+    public function testRedirectsOnMissingUser(): void
+    {
         $controller = new IndexController(
             $this->createMock(ApiClient::class),
             $this->createMock(Twig::class),
             $this->createConfiguredMock(Session::class, [
                 'getUser' => null,
             ]),
-            'loginurl', 'entityid', 'access-group'
+            'loginurl',
+            'entityid',
+            'access-group'
         );
 
         $locationResponse = $this->createMock(Response::class);
@@ -43,7 +43,7 @@ class IndexControllerTest extends TestCase {
         $response
             ->expects($this->once())
             ->method('withHeader')
-            ->with('Location', $this->callback(fn(string $url) : bool => 0 === strpos($url, 'loginurl?SAMLRequest=')))
+            ->with('Location', $this->callback(fn (string $url): bool => 0 === strpos($url, 'loginurl?SAMLRequest=')))
             ->willReturn($locationResponse);
 
         $controller->index(
@@ -55,7 +55,8 @@ class IndexControllerTest extends TestCase {
     /**
      * @covers ::index
      */
-    public function testThrowsExceptionWhenUnableToGetUserGroups() : void {
+    public function testThrowsExceptionWhenUnableToGetUserGroups(): void
+    {
         $apiClient = $this->createMock(ApiClient::class);
         $apiClient
             ->expects($this->once())
@@ -68,10 +69,12 @@ class IndexControllerTest extends TestCase {
             $this->createMock(Twig::class),
             $this->createConfiguredMock(Session::class, [
                 'getUser' => $this->createConfiguredMock(User::class, [
-                    'getObjectId' => 'user-id'
+                    'getObjectId' => 'user-id',
                 ]),
             ]),
-            'loginurl', 'entityid', 'access-group'
+            'loginurl',
+            'entityid',
+            'access-group'
         );
 
         $this->expectExceptionObject(new RuntimeException('Unable to fetch user groups', 400));
@@ -84,12 +87,13 @@ class IndexControllerTest extends TestCase {
     /**
      * @return array<string,array{0:array<array{id:string}>,1:string,2:bool}>
      */
-    public function getUserGroups() : array {
+    public function getUserGroups(): array
+    {
         return [
             'no groups' => [
                 [],
                 'access-group',
-                false
+                false,
             ],
             'has approval group' => [
                 [
@@ -98,7 +102,7 @@ class IndexControllerTest extends TestCase {
                     ['id' => 'group-2'],
                 ],
                 'access-group',
-                true
+                true,
             ],
             'does not have approval group' => [
                 [
@@ -106,7 +110,7 @@ class IndexControllerTest extends TestCase {
                     ['id' => 'group-2'],
                 ],
                 'access-group',
-                false
+                false,
             ],
         ];
     }
@@ -118,7 +122,8 @@ class IndexControllerTest extends TestCase {
      * @param string $accessGroup
      * @param bool $hasAccepted
      */
-    public function testCanRenderViewWithCorrectVariables(array $groups, string $accessGroup, bool $hasAccepted) : void {
+    public function testCanRenderViewWithCorrectVariables(array $groups, string $accessGroup, bool $hasAccepted): void
+    {
         $apiClient = $this->createMock(ApiClient::class);
         $apiClient
             ->expects($this->once())
@@ -132,7 +137,7 @@ class IndexControllerTest extends TestCase {
         $session
             ->expects($this->once())
             ->method('setPostToken')
-            ->with($this->callback(function(string $value) use (&$token) : bool {
+            ->with($this->callback(function (string $value) use (&$token): bool {
                 $token = $value;
 
                 // Always return true as the type hint above does the actual expectation for us,
@@ -150,7 +155,7 @@ class IndexControllerTest extends TestCase {
                 [
                     'user'        => $user,
                     'hasAccepted' => $hasAccepted,
-                    'token'       => &$token
+                    'token'       => &$token,
                 ]
             );
 
@@ -158,7 +163,9 @@ class IndexControllerTest extends TestCase {
             $apiClient,
             $view,
             $session,
-            'loginurl', 'entityid', $accessGroup
+            'loginurl',
+            'entityid',
+            $accessGroup
         );
 
         $controller->index(

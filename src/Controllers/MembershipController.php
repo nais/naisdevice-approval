@@ -3,24 +3,25 @@ namespace Nais\Device\Approval\Controllers;
 
 use Nais\Device\Approval\Session;
 use NAVIT\AzureAd\ApiClient;
-use Psr\Http\Message\{
-    ServerRequestInterface as Request,
-    ResponseInterface as Response,
-};
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use RuntimeException;
 
-class MembershipController {
+class MembershipController
+{
     private Session $session;
     private ApiClient $apiClient;
     private string $accessGroup;
 
-    public function __construct(Session $session, ApiClient $apiClient, string $accessGroup) {
+    public function __construct(Session $session, ApiClient $apiClient, string $accessGroup)
+    {
         $this->session     = $session;
         $this->apiClient   = $apiClient;
         $this->accessGroup = $accessGroup;
     }
 
-    public function toggle(Request $request, Response $response) : Response {
+    public function toggle(Request $request, Response $response): Response
+    {
         $response         = $response->withHeader('Content-Type', 'application/json');
         $user             = $this->session->getUser();
         $sessionToken     = $this->session->getPostToken();
@@ -32,16 +33,16 @@ class MembershipController {
         if (null === $user) {
             $response->getBody()->write((string) json_encode(['error' => 'Invalid session']));
             return $response->withStatus(400);
-        } else if (null === $sessionToken) {
+        } elseif (null === $sessionToken) {
             $response->getBody()->write((string) json_encode(['error' => 'Missing session token']));
             return $response->withStatus(400);
-        } else if ($sessionToken !== $tokenFromRequest) {
+        } elseif ($sessionToken !== $tokenFromRequest) {
             $response->getBody()->write((string) json_encode(['error' => 'Incorrect session token']));
             return $response->withStatus(400);
         }
 
         try {
-            $groups = array_filter($this->apiClient->getUserGroups($user->getObjectId()), function(array $group) : bool {
+            $groups = array_filter($this->apiClient->getUserGroups($user->getObjectId()), function (array $group): bool {
                 return $group['id'] === $this->accessGroup;
             });
         } catch (RuntimeException $e) {

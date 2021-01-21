@@ -4,14 +4,16 @@ namespace Nais\Device\Approval;
 use Nais\Device\Approval\Session\User;
 use RuntimeException;
 
-class Session {
+class Session
+{
     /**
      * Start the session
      *
      * @codeCoverageIgnore
      * @return self
      */
-    public function start() : self {
+    public function start(): self
+    {
         session_start();
         return $this;
     }
@@ -23,7 +25,8 @@ class Session {
      * @throws RuntimeException
      * @return void
      */
-    public function setUser(User $user) : void {
+    public function setUser(User $user): void
+    {
         $_SESSION['user'] = $user;
     }
 
@@ -32,7 +35,8 @@ class Session {
      *
      * @return ?User
      */
-    public function getUser() : ?User {
+    public function getUser(): ?User
+    {
         $user = $_SESSION['user'] ?? null;
 
         if (null === $user || !$user instanceof User) {
@@ -48,7 +52,8 @@ class Session {
      *
      * @return bool
      */
-    public function hasUser() : bool {
+    public function hasUser(): bool
+    {
         return array_key_exists('user', $_SESSION) && $_SESSION['user'] instanceof User;
     }
 
@@ -57,7 +62,8 @@ class Session {
      *
      * @return void
      */
-    public function deleteUser() : void {
+    public function deleteUser(): void
+    {
         unset($_SESSION['user']);
     }
 
@@ -67,7 +73,8 @@ class Session {
      * @param string $token
      * @return void
      */
-    public function setPostToken(string $token) : void {
+    public function setPostToken(string $token): void
+    {
         $_SESSION['postToken'] = $token;
     }
 
@@ -76,7 +83,8 @@ class Session {
      *
      * @return ?string
      */
-    public function getPostToken() : ?string {
+    public function getPostToken(): ?string
+    {
         return !empty($_SESSION['postToken']) ? (string) $_SESSION['postToken'] : null;
     }
 
@@ -86,7 +94,8 @@ class Session {
      * @codeCoverageIgnore
      * @return self
      */
-    public function destroy() : self {
+    public function destroy(): self
+    {
         session_destroy();
         return $this;
     }

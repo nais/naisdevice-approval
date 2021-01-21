@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 namespace Nais\Device\Approval\Session;
 
-class User {
+class User
+{
     private string $objectId;
     private string $name;
 
@@ -11,7 +12,8 @@ class User {
      * @param string $objectId
      * @param string $name
      */
-    public function __construct(string $objectId, string $name) {
+    public function __construct(string $objectId, string $name)
+    {
         $this->objectId = $objectId;
         $this->name     = $name;
     }
@@ -21,7 +23,8 @@ class User {
      *
      * @return string
      */
-    public function getObjectId() : string {
+    public function getObjectId(): string
+    {
         return $this->objectId;
     }
 
@@ -30,7 +33,8 @@ class User {
      *
      * @return string
      */
-    public function getName() : string {
+    public function getName(): string
+    {
         return $this->name;
     }
 }

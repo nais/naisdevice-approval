@@ -4,28 +4,27 @@ namespace Nais\Device\Approval\Controllers;
 use DOMDocument;
 use DOMXPath;
 use InvalidArgumentException;
-use Nais\Device\Approval\{
-    SamlResponseValidator,
-    Session,
-    Session\User,
-};
-use Psr\Http\Message\{
-    ResponseInterface as Response,
-    ServerRequestInterface as Request,
-};
+use Nais\Device\Approval\SamlResponseValidator;
+use Nais\Device\Approval\Session;
+use Nais\Device\Approval\Session\User;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
-class SamlController {
+class SamlController
+{
     private Session $session;
     private SamlResponseValidator $validator;
     private string $logoutUrl;
 
-    public function __construct(Session $session, SamlResponseValidator $validator, string $logoutUrl) {
+    public function __construct(Session $session, SamlResponseValidator $validator, string $logoutUrl)
+    {
         $this->session   = $session;
         $this->validator = $validator;
         $this->logoutUrl = $logoutUrl;
     }
 
-    public function acs(Request $request, Response $response) : Response {
+    public function acs(Request $request, Response $response): Response
+    {
         if ($this->session->hasUser()) {
             $response->getBody()->write('User has already been authenticated');
             return $response->withStatus(400);
@@ -72,7 +71,8 @@ class SamlController {
      * @throws InvalidArgumentException
      * @return User
      */
-    private function getUserFromSamlResponse(string $xml) : User {
+    private function getUserFromSamlResponse(string $xml): User
+    {
         $document = new DOMDocument();
 
         if (false === $document->loadXML($xml, LIBXML_NOERROR)) {
@@ -97,7 +97,8 @@ class SamlController {
         return new User($objectId, $givenName);
     }
 
-    public function logout(Request $request, Response $response) : Response {
+    public function logout(Request $request, Response $response): Response
+    {
         $this->session->destroy();
 
         return $response
