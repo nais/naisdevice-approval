@@ -5,6 +5,8 @@ metadata:
   namespace: naisdevice
   labels:
     team: naisdevice
+  annotations:
+    nais.io/read-only-file-system: "false"
 spec:
   image: {{ image }}
   accessPolicy:
