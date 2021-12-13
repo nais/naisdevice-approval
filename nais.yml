@@ -12,7 +12,7 @@ spec:
       external:
         - host: login.microsoftonline.com
         - host: graph.microsoft.com
-  port: 80
+  port: 8080
   replicas:
     min: 1
     max: 1
