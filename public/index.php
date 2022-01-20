@@ -75,7 +75,7 @@ $app->add(TwigMiddleware::createFromContainer($app, Twig::class));
 $app->add(new Middleware\EnvironmentValidation(getenv()));
 $app
     ->addErrorMiddleware(DEBUG, true, true)
-    ->setDefaultErrorHandler(function (Request $request, Throwable $exception, bool $displayErrorDetails) use ($app) {
+    ->setDefaultErrorHandler(function (Request $_, Throwable $exception, bool $displayErrorDetails) use ($app) {
         /** @var ContainerInterface */
         $container = $app->getContainer();
 
@@ -92,8 +92,8 @@ $app->get('/', IndexController::class . ':index');
 $app->post('/toggleMembership', MembershipController::class . ':toggle');
 $app->post('/saml/acs', SamlController::class . ':acs');
 $app->get('/saml/logout', SamlController::class . ':logout');
-$app->get('/isAlive', fn (Request $request, Response $response): Response => $response);
-$app->get('/isReady', fn (Request $request, Response $response): Response => $response);
+$app->get('/isAlive', fn (Request $_, Response $response): Response => $response);
+$app->get('/isReady', fn (Request $_, Response $response): Response => $response);
 
 // Run the app
 $app->run();

@@ -23,34 +23,24 @@
     }
   },
   "require": {
-    "navikt/aad-api-client": "^0.11.0",
-    "onelogin/php-saml": "^3.4",
+    "navikt/aad-api-client": "^0.12.1",
+    "onelogin/php-saml": "^4.0",
     "php-di/slim-bridge": "^3.0",
     "slim/psr7": "^1.1",
     "slim/slim": "^4.5",
     "slim/twig-view": "^3.1"
   },
   "require-dev": {
-    "navikt/coding-standard": "^1.0",
-    "phpstan/extension-installer": "^1.0",
-    "phpstan/phpstan": "^0.12.54",
-    "phpstan/phpstan-phpunit": "^0.12.11",
+    "navikt/coding-standard": "^2.0",
     "phpunit/phpunit": "^9.2",
-    "psalm/plugin-phpunit": "^0.15.0"
+    "psalm/plugin-phpunit": "^0.16.1"
   },
   "scripts": {
-    "lint": "for file in `git ls-files '*.php'`; do php -l $file; done",
     "test": "vendor/bin/phpunit",
     "test:coverage": "vendor/bin/phpunit --coverage-html build/coverage --coverage-text",
-    "sa": [
-      "@phpstan",
-      "@psalm"
-    ],
-    "phpstan": "vendor/bin/phpstan analyse",
-    "psalm": "vendor/bin/psalm",
-    "cs": "php-cs-fixer fix --dry-run --diff --diff-format udiff",
+    "sa": "vendor/bin/psalm",
+    "cs": "php-cs-fixer fix --dry-run --diff",
     "ci": [
-      "@lint",
       "@test",
       "@sa",
       "@cs"
