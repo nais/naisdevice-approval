@@ -133,6 +133,8 @@ class IndexControllerTest extends TestCase
 
         $user = $this->createConfiguredMock(User::class, ['getObjectId' => 'user-id']);
 
+        $token = '';
+
         $session = $this->createConfiguredMock(Session::class, ['getUser' => $user]);
         $session
             ->expects($this->once())
