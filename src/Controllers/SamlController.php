@@ -73,6 +73,12 @@ class SamlController
      */
     private function getUserFromSamlResponse(string $xml): User
     {
+        $xml = trim($xml);
+
+        if (empty($xml)) {
+            throw new InvalidArgumentException('Empty XML string provided');
+        }
+
         $document = new DOMDocument();
 
         if (false === $document->loadXML($xml, LIBXML_NOERROR)) {

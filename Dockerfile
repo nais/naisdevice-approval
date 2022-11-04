@@ -1,4 +1,4 @@
-FROM php:7.4-cli-alpine AS build
+FROM php:8.1-cli-alpine AS build
 WORKDIR /app
 COPY composer.json composer.lock src templates ./
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
@@ -9,7 +9,7 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     php -r "unlink('composer-setup.php');"
 RUN php composer.phar install -o --no-dev --no-plugins --no-scripts --no-ansi --no-progress
 
-FROM php:7.4-apache
+FROM php:8.1-apache
 RUN a2enmod rewrite
 RUN echo "export ISSUER_ENTITY_ID" >> /etc/apache2/envvars && \
     echo "export LOGIN_URL" >> /etc/apache2/envvars && \

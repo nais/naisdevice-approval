@@ -23,6 +23,7 @@
     }
   },
   "require": {
+    "php": "^8.1",
     "navikt/aad-api-client": "^0.12.1",
     "onelogin/php-saml": "^4.0",
     "php-di/slim-bridge": "^3.0",
@@ -33,7 +34,7 @@
   "require-dev": {
     "navikt/coding-standard": "^2.0",
     "phpunit/phpunit": "^9.2",
-    "psalm/plugin-phpunit": "^0.16.1"
+    "psalm/plugin-phpunit": "^0.18.3"
   },
   "scripts": {
     "test": "vendor/bin/phpunit",
