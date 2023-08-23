@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Nais\Device\Approval\Middleware;
 
 use PHPUnit\Framework\TestCase;
