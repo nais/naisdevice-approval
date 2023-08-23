@@ -4,3 +4,4 @@ env:
   AAD_CLIENT_ID: 954ef047-2f2b-49b8-ab8b-6b86f1fe6982
 ingresses:
   - https://naisdevice-approval.nais.io
+  - https://naisdevice-approval.nav.no
