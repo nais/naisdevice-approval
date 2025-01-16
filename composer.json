@@ -23,7 +23,7 @@
     }
   },
   "require": {
-    "php": "^8.1",
+    "php": ">=8.3",
     "navikt/aad-api-client": "^0.12.1",
     "onelogin/php-saml": "^4.0",
     "php-di/slim-bridge": "^3.0",
@@ -33,13 +33,15 @@
   },
   "require-dev": {
     "navikt/coding-standard": "^2.0",
-    "phpunit/phpunit": "^9.2",
-    "psalm/plugin-phpunit": "^0.18.3"
+    "phpstan/extension-installer": "^1.4",
+    "phpstan/phpstan": "^2.1",
+    "phpstan/phpstan-phpunit": "^2.0",
+    "phpunit/phpunit": "^11.5"
   },
   "scripts": {
     "test": "vendor/bin/phpunit",
     "test:coverage": "vendor/bin/phpunit --coverage-html build/coverage --coverage-text",
-    "sa": "vendor/bin/psalm",
+    "sa": "vendor/bin/phpstan",
     "cs": "php-cs-fixer fix --dry-run --diff",
     "ci": [
       "@test",
@@ -49,6 +51,9 @@
     "start": "DEBUG=1 php -S localhost:8080 -t public/"
   },
   "config": {
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "phpstan/extension-installer": true
+    }
   }
 }
