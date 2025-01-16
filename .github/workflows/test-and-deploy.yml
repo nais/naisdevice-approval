@@ -78,8 +78,8 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_KEY }}
           CLUSTER: dev-gcp
-          RESOURCE: nais.yml
-          VARS: dev-gcp-vars.yml
+          RESOURCE: .nais/nais.yaml
+          VARS: .nais/dev-gcp-vars.yaml
 
   deploy-prod-gcp:
     if: ${{ github.ref == 'refs/heads/main' }}
@@ -95,5 +95,5 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_KEY }}
           CLUSTER: prod-gcp
-          RESOURCE: nais.yml
-          VARS: prod-gcp-vars.yml
+          RESOURCE: .nais/nais.yaml
+          VARS: .nais/prod-gcp-vars.yaml
