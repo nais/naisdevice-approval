@@ -23,7 +23,6 @@ class Session
      * Set a user object
      *
      * @param User $user
-     * @throws RuntimeException
      * @return void
      */
     public function setUser(User $user): void

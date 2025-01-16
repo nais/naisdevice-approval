@@ -5,21 +5,17 @@ namespace Nais\Device\Approval\Controllers;
 use Nais\Device\Approval\Session;
 use Nais\Device\Approval\Session\User;
 use NAVIT\AzureAd\ApiClient;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use RuntimeException;
 use Slim\Views\Twig;
 
-/**
- * @coversDefaultClass Nais\Device\Approval\Controllers\IndexController
- */
+#[CoversClass(IndexController::class)]
 class IndexControllerTest extends TestCase
 {
-    /**
-     * @covers ::__construct
-     * @covers ::index
-     */
     public function testRedirectsOnMissingUser(): void
     {
         $controller = new IndexController(
@@ -53,9 +49,6 @@ class IndexControllerTest extends TestCase
         );
     }
 
-    /**
-     * @covers ::index
-     */
     public function testThrowsExceptionWhenUnableToGetUserGroups(): void
     {
         $apiClient = $this->createMock(ApiClient::class);
@@ -88,7 +81,7 @@ class IndexControllerTest extends TestCase
     /**
      * @return array<string,array{0:array<array{id:string}>,1:string,2:bool}>
      */
-    public function getUserGroups(): array
+    public static function getUserGroups(): array
     {
         return [
             'no groups' => [
@@ -118,11 +111,11 @@ class IndexControllerTest extends TestCase
 
     /**
      * @dataProvider getUserGroups
-     * @covers ::index
      * @param array<array{id:string}> $groups
      * @param string $accessGroup
      * @param bool $hasAccepted
      */
+    #[DataProvider('getUserGroups')]
     public function testCanRenderViewWithCorrectVariables(array $groups, string $accessGroup, bool $hasAccepted): void
     {
         $apiClient = $this->createMock(ApiClient::class);

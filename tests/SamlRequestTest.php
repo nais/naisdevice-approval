@@ -2,18 +2,13 @@
 
 namespace Nais\Device\Approval;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use SimpleXMLElement;
 
-/**
- * @coversDefaultClass Nais\Device\Approval\SamlRequest
- */
+#[CoversClass(SamlRequest::class)]
 class SamlRequestTest extends TestCase
 {
-    /**
-     * @covers ::__construct
-     * @covers ::__toString
-     */
     public function testCanPresentAsString(): void
     {
         /** @var SimpleXMLElement */

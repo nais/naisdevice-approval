@@ -2,21 +2,21 @@
 
 namespace Nais\Device\Approval\Middleware;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use RuntimeException;
 
-/**
- * @coversDefaultClass Nais\Device\Approval\Middleware\EnvironmentValidation
- */
+#[CoversClass(EnvironmentValidation::class)]
 class EnvironmentValidationTest extends TestCase
 {
     /**
      * @return array<string,array{0:array<string,string>,1:string}>
      */
-    public function getEnvVars(): array
+    public static function getEnvVars(): array
     {
         return [
             'no vars' => [
@@ -35,12 +35,10 @@ class EnvironmentValidationTest extends TestCase
     }
 
     /**
-     * @dataProvider getEnvVars
-     * @covers ::__construct
-     * @covers ::__invoke
      * @param array<string,string> $vars
      * @param string $error
      */
+    #[DataProvider('getEnvVars')]
     public function testFailsOnMissingValue(array $vars, string $error): void
     {
         $this->expectExceptionObject(new RuntimeException($error));
@@ -50,9 +48,6 @@ class EnvironmentValidationTest extends TestCase
         );
     }
 
-    /**
-     * @covers ::__invoke
-     */
     public function testHandleResponseOnSuccess(): void
     {
         $request  = $this->createMock(ServerRequestInterface::class);

@@ -3,11 +3,10 @@
 namespace Nais\Device\Approval;
 
 use Nais\Device\Approval\Session\User;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @coversDefaultClass Nais\Device\Approval\Session
- */
+#[CoversClass(Session::class)]
 class SessionTest extends TestCase
 {
     private Session $session;
@@ -18,10 +17,6 @@ class SessionTest extends TestCase
         $this->session = new Session();
     }
 
-    /**
-     * @covers ::setUser
-     * @covers ::getUser
-     */
     public function testCanSetAndGetUser(): void
     {
         $user = new User('id', 'name');
@@ -30,10 +25,6 @@ class SessionTest extends TestCase
         $this->assertSame($user, $this->session->getUser());
     }
 
-    /**
-     * @covers ::setPostToken
-     * @covers ::getPostToken
-     */
     public function testCanSetAndGetPostToken(): void
     {
         $this->assertNull($this->session->getPostToken());
@@ -41,10 +32,6 @@ class SessionTest extends TestCase
         $this->assertSame('token', $this->session->getPostToken());
     }
 
-    /**
-     * @covers ::setUser
-     * @covers ::deleteUser
-     */
     public function testCanRemoveUser(): void
     {
         $user = new User('id', 'name');
@@ -54,9 +41,6 @@ class SessionTest extends TestCase
         $this->assertNull($this->session->getUser());
     }
 
-    /**
-     * @covers ::hasUser
-     */
     public function testCanCheckIfTheSessionHasAUser(): void
     {
         $this->assertFalse($this->session->hasUser());

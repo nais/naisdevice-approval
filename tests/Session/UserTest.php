@@ -2,18 +2,12 @@
 
 namespace Nais\Device\Approval\Session;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @coversDefaultClass Nais\Device\Approval\Session\User
- */
+#[CoversClass(User::class)]
 class UserTest extends TestCase
 {
-    /**
-     * @covers ::__construct
-     * @covers ::getObjectId
-     * @covers ::getName
-     */
     public function testCanGetValues(): void
     {
         $user = new User('id', 'name');
