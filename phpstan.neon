@@ -4,3 +4,4 @@ parameters:
     - public
     - src
     - tests
+    - scripts
