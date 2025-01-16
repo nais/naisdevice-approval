@@ -1,19 +1,16 @@
 name: Test, build and deploy
 on: push
-env:
-  IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
-
 jobs:
   test:
     name: Run unit tests and static analysis
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.3'
           tools: php-cs-fixer
 
       - name: Output some debug information about the PHP version
@@ -29,7 +26,7 @@ jobs:
         id: get-composer-cache-dir
         run: echo "dir=$(composer config cache-files-dir)" >> ${GITHUB_OUTPUT}
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         id: composer-cache
         with:
           path: ${{ steps.get-composer-cache-dir.outputs.dir }}
@@ -49,51 +46,54 @@ jobs:
       - name: Check coding standard
         run: php-cs-fixer fix --dry-run --diff
 
-  build:
-    name: Build docker container
-    runs-on: ubuntu-22.04
+  build-and-push:
+    name: Build and push image
+    runs-on: ubuntu-24.04
+    needs: test
+    outputs:
+      image: ${{ steps.docker-build-push.outputs.image }}
+      telemetry: ${{ steps.docker-build-push.outputs.telemetry }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Build image
-        run: docker build --tag ${IMAGE} .
-
-      - name: Publish image
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo ${GITHUB_TOKEN} | docker login ghcr.io --username ${GITHUB_REPOSITORY} --password-stdin
-          docker push ${IMAGE}
+      - uses: nais/docker-build-push@v0
+        id: docker-build-push
+        with:
+          team: naisdevice
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
 
   deploy-dev-gcp:
     name: Deploy to dev-gcp
     needs:
       - test
-      - build
-    runs-on: ubuntu-22.04
+      - build-and-push
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: nais/deploy/actions/deploy@v1
+      - uses: nais/deploy/actions/deploy@v2
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_KEY }}
           CLUSTER: dev-gcp
           RESOURCE: .nais/nais.yaml
           VARS: .nais/dev-gcp-vars.yaml
+          VAR: image=${{ needs.build-and-push.outputs.image }}
+          TELEMETRY: ${{ needs.build-and-push.outputs.telemetry }}
 
   deploy-prod-gcp:
     if: ${{ github.ref == 'refs/heads/main' }}
     name: Deploy to prod-gcp
     needs:
       - test
-      - build
-    runs-on: ubuntu-22.04
+      - build-and-push
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: nais/deploy/actions/deploy@v1
+      - uses: nais/deploy/actions/deploy@v2
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_KEY }}
           CLUSTER: prod-gcp
           RESOURCE: .nais/nais.yaml
           VARS: .nais/prod-gcp-vars.yaml
+          VAR: image=${{ needs.build-and-push.outputs.image }}
+          TELEMETRY: ${{ needs.build-and-push.outputs.telemetry }}
