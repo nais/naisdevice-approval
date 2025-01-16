@@ -3,7 +3,6 @@
 namespace Nais\Device\Approval;
 
 use Nais\Device\Approval\Session\User;
-use RuntimeException;
 
 class Session
 {
