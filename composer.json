@@ -29,7 +29,8 @@
     "php-di/slim-bridge": "^3.0",
     "slim/psr7": "^1.1",
     "slim/slim": "^4.5",
-    "slim/twig-view": "^3.1"
+    "slim/twig-view": "^3.1",
+    "vlucas/phpdotenv": "^5.6"
   },
   "require-dev": {
     "navikt/coding-standard": "^2.0",
@@ -49,7 +50,10 @@
       "@sa",
       "@cs"
     ],
-    "start": "DEBUG=1 php -S localhost:8080 -t public/"
+    "dev": [
+      "Composer\\Config::disableProcessTimeout",
+      "php -S localhost:8080 -t public/"
+    ]
   },
   "config": {
     "sort-packages": true,
