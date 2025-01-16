@@ -8,3 +8,4 @@ test.php
 .vscode
 .php-cs-fixer.cache
 .dccache
+phpunit.xml

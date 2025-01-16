@@ -1,0 +1,4 @@
+env:
+  DEBUG: 0
+ingresses:
+  - https://naisdevice-approval.external.prod-gcp.nav.cloud.nais.io

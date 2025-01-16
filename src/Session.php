@@ -3,7 +3,6 @@
 namespace Nais\Device\Approval;
 
 use Nais\Device\Approval\Session\User;
-use RuntimeException;
 
 class Session
 {
@@ -23,7 +22,6 @@ class Session
      * Set a user object
      *
      * @param User $user
-     * @throws RuntimeException
      * @return void
      */
     public function setUser(User $user): void

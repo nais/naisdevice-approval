@@ -3,6 +3,8 @@
 namespace Nais\Device\Approval;
 
 use DI\Container;
+use Dotenv\Dotenv;
+use Dotenv\Exception\ValidationException;
 use Nais\Device\Approval\Controllers\IndexController;
 use Nais\Device\Approval\Controllers\MembershipController;
 use Nais\Device\Approval\Controllers\SamlController;
@@ -20,12 +22,34 @@ require __DIR__ . '/../vendor/autoload.php';
 /**
  * Get env var as string
  *
- * @param string $key
- * @return string
+ * If the variable does not exist an empty string is returned. Leading and trailing whitespace is
+ * automatically stripped from the returned value.
  */
 function env(string $key): string
 {
-    return trim((string) getenv($key));
+    $value = $_ENV[$key] ?? '';
+    return trim((string) $value);
+}
+
+$dotenv = Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->safeLoad();
+
+try {
+    $requiredEnvVars = [
+        'ISSUER_ENTITY_ID',
+        'LOGIN_URL',
+        'ACCESS_GROUP',
+        'AAD_CLIENT_ID',
+        'AAD_CLIENT_SECRET',
+        'SAML_CERT',
+        'DOMAIN',
+    ];
+
+    $dotenv->required($requiredEnvVars)->notEmpty();
+} catch (ValidationException $e) {
+    http_response_code(503);
+    echo sprintf('Missing one or more required environment variable(s): %s', join(', ', $requiredEnvVars));
+    exit;
 }
 
 define('DEBUG', '1' === env('DEBUG'));
@@ -73,7 +97,6 @@ $app = AppFactory::create();
 // Register middleware
 $app->addBodyParsingMiddleware();
 $app->add(TwigMiddleware::createFromContainer($app, Twig::class));
-$app->add(new Middleware\EnvironmentValidation(getenv()));
 $app
     ->addErrorMiddleware(DEBUG, true, true)
     ->setDefaultErrorHandler(function (Request $_, Throwable $exception, bool $displayErrorDetails) use ($app) {
