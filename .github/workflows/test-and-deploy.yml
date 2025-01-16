@@ -1,5 +1,8 @@
 name: Test, build and deploy
 on: push
+permissions:
+  contents: read
+  id-token: write
 jobs:
   test:
     name: Run unit tests and static analysis
