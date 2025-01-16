@@ -5,21 +5,21 @@ on:
       - closed
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     if: github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'trigger re-approval')
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.3'
 
       - name: Get Composer Cache Directory
         id: get-composer-cache-dir
         run: echo "dir=$(composer config cache-files-dir)" >> ${GITHUB_OUTPUT}
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         id: composer-cache
         with:
           path: ${{ steps.get-composer-cache-dir.outputs.dir }}
@@ -31,7 +31,7 @@ jobs:
         run: composer install --prefer-dist --no-dev
 
       - name: Purge group members
-        run: php purge-approvals-group.php
+        run: php scripts/purge-approvals-group.php
         env:
           AAD_CLIENT_ID: ${{ secrets.AAD_CLIENT_ID }}
           AAD_CLIENT_SECRET: ${{ secrets.AAD_CLIENT_SECRET }}
