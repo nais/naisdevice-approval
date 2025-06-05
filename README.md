@@ -4,6 +4,12 @@ Simple web application that presents the do's and don'ts of naisdevice, and enab
 
 ## Local development
 
+Install tools:
+
+```bash
+mise i
+```
+
 Install dependencies:
 
 ```bash
