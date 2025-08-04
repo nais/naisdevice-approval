@@ -9,10 +9,9 @@ metadata:
     nais.io/read-only-file-system: "false"
 spec:
   image: {{ image }}
-  spec:
-    azure:
-      application:
-        enabled: true
+  azure:
+    application:
+      enabled: true
   accessPolicy:
     outbound:
       external:
