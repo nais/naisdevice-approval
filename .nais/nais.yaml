@@ -12,6 +12,47 @@ spec:
   azure:
     application:
       enabled: true
+      allowAllUsers: false
+      claims:
+        groups:
+          - id: "ce74973a-a348-4cd3-b457-037a34b6f5eb"
+          - id: "9f6d212e-e4c6-4ef1-8616-3a84280ea398"
+          - id: "568ef0a4-cbc5-4103-9501-ffc7c71097d7"
+          - id: "76e9ee7e-2cd1-4814-b199-6c0be007d7b4"
+          - id: "48120347-8582-4329-8673-7beb3ed6ca06"
+          - id: "eb5c5556-6c9a-4e54-83fc-f70cae25358d"
+          - id: "5f8b7bac-c3bf-4597-a9b1-42be0c8410f8"
+          - id: "9845e7cd-6d21-4a7e-b968-6ac7344d2f39"
+          - id: "c6affaa8-11c7-4d7e-9198-048edf846878"
+          - id: "d0685f29-2ee6-4bf1-9063-983ea308e32d"
+          - id: "505ef6fd-bda4-4cb1-bbf3-149f530ec9ea"
+          - id: "7d1aae41-6482-43bc-b0f2-9864929a511e"
+          - id: "462023f9-2210-4923-9864-904de0a0025e"
+          - id: "8663da41-259d-4bef-bf4e-9afcd5e24abc"
+          - id: "52c1b6f4-d62d-40af-b159-59d91cf714f6"
+          - id: "1be62e84-4749-4281-ba8c-f4fc3c85357e"
+          - id: "6b522d6e-d117-4304-8c85-dbb75b181399"
+          - id: "25275f28-a576-4242-a0f9-0486b1ebabd4"
+          - id: "e62b5c07-d86c-410c-9bef-f8666a503994"
+          - id: "3e3951e3-2cd1-4f01-ac37-eef18982075e"
+          - id: "970da577-32f7-4c1c-a14e-3932d27ecb52"
+          - id: "04dfd9dd-c3e5-41b8-bda8-d3076369b93b"
+          - id: "1eb2f46b-ab1f-4c88-834d-61ec3fe4079d"
+          - id: "01284f4f-42d5-463c-881d-1da34f97ab93"
+          - id: "36014e53-ad2b-4363-8324-9eb31ac3c935"
+          - id: "a2a5ebc5-16ae-4747-8d1b-d5b8b1ac25d7"
+          - id: "66ee1685-c89b-4cfd-9e1e-42332a70a321"
+          - id: "39e05663-3993-4f3e-82a6-0698f3487162"
+          - id: "ab0e12d2-cc0b-42b4-96b0-80f384a9394b"
+          - id: "8e8f0de7-e28e-4b9f-937c-85fd234223c5"
+          - id: "c3e27f05-8d4e-4715-8a89-5c48b5d2a447"
+          - id: "ca127354-1972-4293-8b72-1a4dd821aaa9"
+          - id: "d5d68c77-fed9-4a5e-aff8-1387fdcae84c"
+          - id: "306bdca2-4b65-4286-b21d-5055371b5f99"
+          - id: "6062f71d-5742-44c2-b4a3-f5cfc3a1e8e0"
+          - id: "3f663578-3b49-4296-ae65-f5836328a81c"
+          - id: "cab35097-1ce9-42ea-bbc0-99e200d433ed"
+          - id: "339806a9-edea-47ea-a939-22066bd11b0e"
   accessPolicy:
     outbound:
       external:
