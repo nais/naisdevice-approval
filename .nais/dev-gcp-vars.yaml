@@ -1,4 +1,0 @@
-env:
-  DEBUG: 1
-ingresses:
-  - https://naisdevice-approval.intern.dev.nav.no
