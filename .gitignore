@@ -1,11 +1,1 @@
-vendor
-logs
-build
-*.env
-test.php
-.phpunit.result.cache
-.DS_Store
-.vscode
-.php-cs-fixer.cache
-.dccache
-phpunit.xml
+.idea
