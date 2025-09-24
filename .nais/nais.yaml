@@ -68,3 +68,10 @@ spec:
       memory: 16Mi
   ingresses:
     - https://naisdevice-approval.external.prod-gcp.nav.cloud.nais.io
+  filesFrom:
+    - emptyDir:
+        medium: Disk
+      mountPath: /var/cache/nginx/
+    - emptyDir:
+        medium: Disk
+      mountPath: /var/run/
