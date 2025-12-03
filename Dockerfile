@@ -1,2 +1,2 @@
-FROM nginx:alpine
-COPY index.html /usr/share/nginx/html
+FROM caddy:alpine
+COPY index.html /usr/share/caddy/index.html
